@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "ExEval",
+  "version": "1.0.0",
+  "author": "Savecoders and RicardoVillamar",
+  "description": "",
+  "icons": {
+    "16": "./vite.svg",
+    "32": "./vite.svg",
+    "48": "./vite.svg"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "./vite.svg",
+      "32": "./vite.svg",
+      "48": "./vite.svg"
+    }
+  },
+  "permissions": ["activeTab", "scripting", "tabs"]
+}
