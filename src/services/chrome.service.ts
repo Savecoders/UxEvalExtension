@@ -1,4 +1,4 @@
-import AdapterBrowser from '../types/browser.adapter';
+import AdapterBrowser from '@/types/browser.adapter';
 
 class ChromeService implements AdapterBrowser<chrome.tabs.Tab> {
   private currentTab?: chrome.tabs.Tab;

@@ -1,4 +1,4 @@
-import AdapterBrowser from '../types/browser.adapter';
+import AdapterBrowser from '@/types/browser.adapter';
 
 class FirefoxService implements AdapterBrowser<browser.tabs.Tab> {
   private currentTab?: browser.tabs.Tab;

@@ -1,4 +1,4 @@
-import { browsersName } from '../types/browser.types';
+import { browsersName } from '@/types/browser.types';
 
 export const detectBrowser = (): browsersName => {
   const userAgent = navigator.userAgent.toLowerCase();
