@@ -12,18 +12,18 @@ export default defineConfig({
       targets: [
         {
           src: 'public/manifest.json',
-          dest: '.',
-        },
-      ],
-    }),
+          dest: '.'
+        }
+      ]
+    })
   ],
 
   build: {
     outDir: 'dist',
     rollupOptions: {
       input: {
-        main: '/index.html',
-      },
-    },
-  },
+        main: '/index.html'
+      }
+    }
+  }
 });

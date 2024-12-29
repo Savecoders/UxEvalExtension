@@ -1,7 +1,8 @@
 function App() {
   return (
     <>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+      <h2>Euristic Evaluation Extension</h2>
+      <button>Let's go Evaluation</button>
     </>
   );
 }
