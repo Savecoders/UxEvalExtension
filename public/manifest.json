@@ -1,21 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "ExEval",
+  "name": "UX Evaluation Extension",
   "version": "1.0.0",
-  "author": "Savecoders and RicardoVillamar",
-  "description": "",
-  "icons": {
-    "16": "./vite.svg",
-    "32": "./vite.svg",
-    "48": "./vite.svg"
-  },
+  "description": "A tool for performing heuristic evaluations",
+  "permissions": ["activeTab", "scripting", "storage"],
   "action": {
-    "default_popup": "index.html",
-    "default_icon": {
-      "16": "./vite.svg",
-      "32": "./vite.svg",
-      "48": "./vite.svg"
-    }
+    "default_popup": "index.html"
   },
-  "permissions": ["activeTab", "scripting", "tabs"]
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
 }
