@@ -1,6 +1,6 @@
-import AdapterBrowser from '@/types/browser.adapter';
+import { BrowserAdapter, BrowserMessage, RuntimeMessage, RuntimeSender } from '@/types/browser';
 
-class ChromeService implements AdapterBrowser<chrome.tabs.Tab> {
+class ChromeService implements BrowserAdapter<chrome.tabs.Tab> {
   private currentTab?: chrome.tabs.Tab;
 
   constructor() {}
@@ -36,6 +36,21 @@ class ChromeService implements AdapterBrowser<chrome.tabs.Tab> {
         console.error(error);
         return <R>null;
       });
+  }
+
+  sendMessage<T>(message: RuntimeMessage<T>): Promise<T> {
+    return chrome.runtime.sendMessage(message);
+  }
+  onMessage(
+    callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>
+  ): void {
+    chrome.runtime.onMessage.addListener(callback);
+  }
+
+  removeMessageListener(
+    callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>
+  ): void {
+    chrome.runtime.onMessage.removeListener(callback);
   }
 }
 

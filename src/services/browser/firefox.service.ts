@@ -1,6 +1,6 @@
-import AdapterBrowser from '@/types/browser.adapter';
+import { BrowserAdapter, BrowserMessage, RuntimeMessage, RuntimeSender } from '@/types/browser';
 
-class FirefoxService implements AdapterBrowser<browser.tabs.Tab> {
+class FirefoxService implements BrowserAdapter<browser.tabs.Tab> {
   private currentTab?: browser.tabs.Tab;
 
   constructor() {}
@@ -35,6 +35,19 @@ class FirefoxService implements AdapterBrowser<browser.tabs.Tab> {
         console.error(error);
         return <R>null;
       });
+  }
+  sendMessage<T>(message: RuntimeMessage<T>): Promise<T> {
+    return browser.runtime.sendMessage(message);
+  }
+  onMessage(
+    callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>
+  ): void {
+    browser.runtime.onMessage.addListener(callback);
+  }
+  removeMessageListener(
+    callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>
+  ): void {
+    browser.runtime.onMessage.addListener(callback);
   }
 }
 
