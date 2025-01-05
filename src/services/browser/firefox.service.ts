@@ -1,4 +1,4 @@
-import { BrowserAdapter, BrowserMessage, RuntimeMessage, RuntimeSender } from '@/types/browser';
+import { BrowserAdapter, BrowserMessage, RuntimeMessage, RuntimeSender, ScriptInjection } from '@/types/browser';
 
 class FirefoxService implements BrowserAdapter<browser.tabs.Tab> {
   private currentTab?: browser.tabs.Tab;
@@ -21,13 +21,9 @@ class FirefoxService implements BrowserAdapter<browser.tabs.Tab> {
     return this.currentTab;
   }
 
-  async executeScript<R>(callback: () => void): Promise<R> {
-    const tab = await this.getBrowserTab();
+  async executeScript<R>(script: ScriptInjection): Promise<R> {
     return browser.scripting
-      .executeScript({
-        target: { tabId: tab.id! },
-        func: callback
-      })
+      .executeScript(script)
       .then((injectionResults) =>
         injectionResults.length ? (injectionResults[0].result as R) : <R>null
       )

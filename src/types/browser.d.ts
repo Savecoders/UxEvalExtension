@@ -12,7 +12,7 @@ export interface RuntimeMessage<T> {
   type: string;
   payload: T;
 }
-
+//ElementSelectedMessage
 export interface ElementSelectedMessage {
   type: 'ELEMENT_SELECTED';
   payload: {
@@ -31,11 +31,27 @@ export interface ElementSelectedMessage {
 }
 
 export type BrowserMessage = ElementSelectedMessage;
-// Agregar aquí otros tipos de mensajes...
+
+export interface InjectionTarget {
+  allFrames?: boolean | undefined;
+  documentIds?: string[] | undefined;
+  frameIds?: number[] | undefined;
+  tabId: number;
+}
+// /MessageEvent
+export interface ScriptInjection {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  args?: any[] | undefined;
+  files?: string[] | undefined;
+  func: () => void | undefined;
+  target: InjectionTarget;
+  world?: ExecutionWorld | undefined;
+  injectImmediately?: boolean | undefined;
+}
 
 export interface BrowserAdapter<T> {
   getBrowserTab(): Promise<T>;
-  executeScript<R>(callback: () => void | Promise<R>): Promise<R>;
+  executeScript<R>(script: ScriptInjection): Promise<R>;
   sendMessage<T>(message: RuntimeMessage<T>): Promise<T>;
   onMessage(
     callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>

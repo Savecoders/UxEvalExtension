@@ -1,4 +1,10 @@
-import { BrowserAdapter, BrowserMessage, RuntimeMessage, RuntimeSender } from '@/types/browser';
+import {
+  BrowserAdapter,
+  BrowserMessage,
+  RuntimeMessage,
+  RuntimeSender,
+  ScriptInjection
+} from '@/types/browser';
 
 class ChromeService implements BrowserAdapter<chrome.tabs.Tab> {
   private currentTab?: chrome.tabs.Tab;
@@ -21,14 +27,9 @@ class ChromeService implements BrowserAdapter<chrome.tabs.Tab> {
     return this.currentTab;
   }
 
-  async executeScript<R>(callback: () => Promise<R>): Promise<R> {
-    const tab = await this.getBrowserTab();
-
+  async executeScript<R>(script: ScriptInjection): Promise<R> {
     return chrome.scripting
-      .executeScript({
-        target: { tabId: tab.id! },
-        func: callback
-      })
+      .executeScript(script)
       .then((injectionResults) =>
         injectionResults.length ? (injectionResults[0].result as R) : <R>null
       )
