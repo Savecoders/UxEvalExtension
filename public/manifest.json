@@ -3,7 +3,7 @@
   "name": "UX Evaluation Extension",
   "version": "1.0.0",
   "description": "A tool for performing heuristic evaluations",
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": ["scripting", "tabs", "activeTab", "storage"],
   "action": {
     "default_popup": "index.html"
   },
