@@ -23,7 +23,7 @@ class SelectorService {
 
     // Inyectar el script en la página activa
     const tab = await this.browser.getBrowserTab();
-    await chrome.scripting.executeScript({
+    await this.browser.executeScript({
       target: { tabId: tab.id! },
       func: this.injectSelectionMode
     });
@@ -72,7 +72,6 @@ class SelectorService {
       const selector = target.id ? `#${target.id}` : target.tagName.toLowerCase();
       const rect = target.getBoundingClientRect();
 
-      // En lugar de crear el popup manualmente, enviamos un mensaje para que React lo maneje
       window.postMessage(
         {
           type: 'SHOW_EVALUATION_FORM',
@@ -152,7 +151,7 @@ class SelectorService {
     }
 
     const tab = await this.browser.getBrowserTab();
-    await chrome.scripting.executeScript({
+    await this.browser.executeScript({
       target: { tabId: tab.id! },
       func: () => {
         document.getElementById('ux-evaluation-portal')?.remove();
