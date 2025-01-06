@@ -15,7 +15,7 @@ class SelectorService {
     }
 
     this.messageListener = async (event) => {
-      if (event.data?.type === 'EVALUATION_SUBMITTED') {
+      if (event.data?.type === 'ELEMENT_SELECTED') {
         await this.browser.sendMessage(event.data);
       }
     };
@@ -62,7 +62,7 @@ class SelectorService {
     `;
     document.head.appendChild(style);
 
-    function handleClick(event: MouseEvent) {
+    const handleClick = (event: MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
 
@@ -72,11 +72,21 @@ class SelectorService {
       const selector = target.id ? `#${target.id}` : target.tagName.toLowerCase();
       const rect = target.getBoundingClientRect();
 
+      // Handle both SVG and HTML elements
+      const className =
+        target instanceof SVGElement
+          ? (target.className as SVGAnimatedString).baseVal
+          : target.className.toString();
+
       window.postMessage(
         {
-          type: 'SHOW_EVALUATION_FORM',
+          type: 'ELEMENT_SELECTED',
           payload: {
-            elementSelector: selector,
+            selector,
+            tagName: target.tagName,
+            className,
+            id: target.id,
+            text: target.textContent || undefined,
             position: {
               top: rect.bottom + window.scrollY + 10,
               left: rect.left + window.scrollX,
@@ -87,13 +97,7 @@ class SelectorService {
         },
         '*'
       );
-
-      // Ocultar el overlay
-      const overlay = document.getElementById('ux-selector-overlay');
-      if (overlay) {
-        overlay.style.display = 'none';
-      }
-    }
+    };
 
     function handleMouseOver(event: MouseEvent) {
       const target = event.target as HTMLElement;
