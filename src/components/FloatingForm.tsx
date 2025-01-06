@@ -1,8 +1,11 @@
 import React from 'react';
 import useFloatingForm from '@/hooks/useFloatingForm';
+import { BrowserAdapter, browserTab } from '@/types/browser';
 
-const FloatingForm: React.FC = () => {
-  const { isVisible, position, hideForm } = useFloatingForm();
+const FloatingForm: React.FC<{ browserAdapter: BrowserAdapter<browserTab> }> = ({
+  browserAdapter
+}) => {
+  const { isVisible, position, hideForm } = useFloatingForm(browserAdapter);
   if (!isVisible || !position) return null;
 
   return (

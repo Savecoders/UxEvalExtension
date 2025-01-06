@@ -51,7 +51,7 @@ function App() {
       ) : (
         <button onClick={handleClick}>Let's go Evaluation</button>
       )}
-      <FloatingForm />
+      <FloatingForm browserAdapter={browser} />
     </>
   );
 }
