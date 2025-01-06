@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { BrowserMessage, browserTab } from '@/types/browser';
+import { BrowserAdapter } from '../types/browser';
 
 interface FormPosition {
   top: number;
@@ -7,25 +9,29 @@ interface FormPosition {
   height: number;
 }
 
-const useFloatingForm = () => {
+const useFloatingForm = (browserAdapter: BrowserAdapter<browserTab>) => {
   const [isVisible, setIsVisible] = useState(false);
   const [position, setPosition] = useState<FormPosition | null>(null);
 
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data.type === 'SHOW_EVALUATION_FORM') {
-        setPosition(event.data.payload.position);
-        console.log('Evento recibido');
-        console.log(event.data.payload.position);
+    const port = browserAdapter.connectToBackground('popup');
+
+    const handleMessage = (message: BrowserMessage) => {
+      if (message.type === 'ELEMENT_SELECTED') {
+        setPosition(message.payload.position);
+        console.log('Element selected:', message.payload);
         setIsVisible(true);
       }
     };
 
-    window.addEventListener('message', handleMessage);
+    port.onMessage.addListener(handleMessage);
+    browserAdapter.onMessage(handleMessage);
+
     return () => {
-      window.removeEventListener('message', handleMessage);
+      port.disconnect();
+      browserAdapter.removeMessageListener(handleMessage);
     };
-  }, []);
+  }, [browserAdapter]);
 
   const hideForm = () => setIsVisible(false);
 
