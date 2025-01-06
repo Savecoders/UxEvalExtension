@@ -8,26 +8,29 @@ export interface RuntimeSender {
   url?: string;
 }
 
-export interface RuntimeMessage<T> {
-  type: string;
-  payload: T;
+// Base message payload type
+export interface ElementSelectedPayload {
+  selector: string;
+  tagName: string;
+  className: string;
+  id: string;
+  text?: string;
+  position: {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  };
 }
-//ElementSelectedMessage
+
 export interface ElementSelectedMessage {
   type: 'ELEMENT_SELECTED';
-  payload: {
-    selector: string;
-    tagName: string;
-    className: string;
-    id: string;
-    text?: string;
-    position: {
-      top: number;
-      left: number;
-      width: number;
-      height: number;
-    };
-  };
+  payload: ElementSelectedPayload;
+}
+
+export interface RuntimeMessage<T> {
+  type: T extends ElementSelectedMessage ? 'ELEMENT_SELECTED' : string;
+  payload: T extends ElementSelectedMessage ? ElementSelectedPayload : T;
 }
 
 export type BrowserMessage = ElementSelectedMessage;
@@ -49,6 +52,15 @@ export interface ScriptInjection {
   injectImmediately?: boolean | undefined;
 }
 
+export interface BrowserPort {
+  name: string;
+  onMessage: {
+    addListener: (callback: (message: RuntimeMessage) => void) => void;
+    removeListener: (callback: (message: RuntimeMessage) => void) => void;
+  };
+  disconnect: () => void;
+}
+
 export interface BrowserAdapter<T> {
   getBrowserTab(): Promise<T>;
   executeScript<R>(script: ScriptInjection): Promise<R>;
@@ -59,4 +71,5 @@ export interface BrowserAdapter<T> {
   removeMessageListener(
     callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>
   ): void;
+  connectToBackground(portName: string): BrowserPort;
 }

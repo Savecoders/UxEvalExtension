@@ -1,6 +1,7 @@
 import {
   BrowserAdapter,
   BrowserMessage,
+  BrowserPort,
   RuntimeMessage,
   RuntimeSender,
   ScriptInjection
@@ -52,6 +53,10 @@ class ChromeService implements BrowserAdapter<chrome.tabs.Tab> {
     callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>
   ): void {
     chrome.runtime.onMessage.removeListener(callback);
+  }
+
+  connectToBackground(portName: string): BrowserPort {
+    return chrome.runtime.connect({ name: portName });
   }
 }
 

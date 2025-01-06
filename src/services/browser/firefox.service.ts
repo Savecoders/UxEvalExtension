@@ -1,4 +1,11 @@
-import { BrowserAdapter, BrowserMessage, RuntimeMessage, RuntimeSender, ScriptInjection } from '@/types/browser';
+import {
+  BrowserAdapter,
+  BrowserMessage,
+  BrowserPort,
+  RuntimeMessage,
+  RuntimeSender,
+  ScriptInjection
+} from '@/types/browser';
 
 class FirefoxService implements BrowserAdapter<browser.tabs.Tab> {
   private currentTab?: browser.tabs.Tab;
@@ -44,6 +51,9 @@ class FirefoxService implements BrowserAdapter<browser.tabs.Tab> {
     callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>
   ): void {
     browser.runtime.onMessage.addListener(callback);
+  }
+  connectToBackground(portName: string): BrowserPort {
+    return browser.runtime.connect({ name: portName });
   }
 }
 
