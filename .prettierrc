@@ -1,8 +1,9 @@
 {
   "semi": true,
-  "tabWidth": 2,
-  "printWidth": 100,
   "singleQuote": true,
-  "trailingComma": "none",
-  "jsxBracketSameLine": true
+  "trailingComma": "all",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindFunctions": ["clsx", "cn", "twMerge"]
 }
