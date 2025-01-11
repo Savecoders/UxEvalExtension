@@ -19,8 +19,8 @@ const Configuration: UserConfig = {
         'build', // Changes that affect the build system or external dependencies (example scopes: npm)
         'ci', // Changes to CI configuration files and scripts
         'chore', // Other changes that don't modify src or test files
-        'revert' // Reverts a previous commit
-      ]
+        'revert', // Reverts a previous commit
+      ],
     ],
     'scope-enum': [
       2,
@@ -38,10 +38,10 @@ const Configuration: UserConfig = {
         'build', // Build scripts or configuration
         'ci', // Continuous integration
         'release', // Release related changes
-        'other' // Other changes
-      ]
-    ]
-  }
+        'other', // Other changes
+      ],
+    ],
+  },
 };
 
 export default Configuration;
