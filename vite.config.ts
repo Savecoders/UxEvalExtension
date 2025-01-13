@@ -13,26 +13,26 @@ export default defineConfig({
       targets: [
         {
           src: 'public/manifest.json',
-          dest: '.'
-        }
-      ]
-    })
+          dest: '.',
+        },
+      ],
+    }),
   ],
 
   build: {
     rollupOptions: {
       input: {
-        popup: resolve(__dirname, 'index.html')
+        popup: resolve(__dirname, 'index.html'),
       },
       output: {
         entryFileNames: '[name].js',
-        dir: 'dist'
-      }
-    }
+        dir: 'dist',
+      },
+    },
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
-    }
-  }
+      '@': resolve(__dirname, './src'),
+    },
+  },
 });

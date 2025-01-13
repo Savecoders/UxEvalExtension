@@ -5,7 +5,7 @@ export declare enum Severity {
   COSMETIC = 1,
   MINOR = 2,
   MAJOR = 3,
-  CATASTROPHE = 4
+  CATASTROPHE = 4,
 }
 
 export interface IHeuristic {

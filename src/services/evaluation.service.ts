@@ -3,7 +3,7 @@ import {
   IEvaluation,
   Severity,
   DomainEvaluation,
-  PageEvaluation
+  PageEvaluation,
 } from '@/types/evaluation';
 import { PageMetadata } from './page.service';
 
@@ -26,7 +26,7 @@ class EvaluationService {
       notes: string;
       recommendation: string;
       screenshot?: string;
-    }
+    },
   ): Promise<IEvaluation> {
     const { hostname, path } = pageMetadata;
 
@@ -38,21 +38,21 @@ class EvaluationService {
       id: crypto.randomUUID(),
       timestamp: new Date(),
       url: pageMetadata.url || '',
-      ...evaluation
+      ...evaluation,
     };
 
     // Inicializar estructura si no existe
     if (!this.evaluations[hostname]) {
       this.evaluations[hostname] = {
         domain: hostname,
-        pages: {}
+        pages: {},
       };
     }
 
     if (!this.evaluations[hostname].pages[path]) {
       this.evaluations[hostname].pages[path] = {
         metadata: pageMetadata,
-        evaluations: []
+        evaluations: [],
       };
     }
 
@@ -77,10 +77,16 @@ class EvaluationService {
     return this.evaluations[hostname]?.pages[path]?.evaluations || [];
   }
 
-  async deleteEvaluation(domain: string, path: string, evaluationId: string): Promise<void> {
+  async deleteEvaluation(
+    domain: string,
+    path: string,
+    evaluationId: string,
+  ): Promise<void> {
     if (this.evaluations[domain]?.pages[path]) {
       const pageEval = this.evaluations[domain].pages[path];
-      pageEval.evaluations = pageEval.evaluations.filter((e: IEvaluation) => e.id !== evaluationId);
+      pageEval.evaluations = pageEval.evaluations.filter(
+        (e: IEvaluation) => e.id !== evaluationId,
+      );
       await this.saveEvaluations();
     }
   }
@@ -91,10 +97,15 @@ class EvaluationService {
   private async saveEvaluations(): Promise<void> {
     try {
       if (chrome?.storage?.local) {
-        await chrome.storage.local.set({ domainEvaluations: this.evaluations });
+        await chrome.storage.local.set({
+          domainEvaluations: this.evaluations,
+        });
       } else {
         // Fallback a localStorage si chrome.storage no está disponible
-        localStorage.setItem('domainEvaluations', JSON.stringify(this.evaluations));
+        localStorage.setItem(
+          'domainEvaluations',
+          JSON.stringify(this.evaluations),
+        );
       }
     } catch (error) {
       console.error('Error saving evaluations:', error);

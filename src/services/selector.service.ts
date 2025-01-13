@@ -25,7 +25,7 @@ class SelectorService {
     const tab = await this.browser.getBrowserTab();
     await this.browser.executeScript({
       target: { tabId: tab.id! },
-      func: this.injectSelectionMode
+      func: this.injectSelectionMode,
     });
   }
 
@@ -69,7 +69,9 @@ class SelectorService {
       const target = event.target as HTMLElement;
       if (!target || target.id === 'ux-selector-overlay') return;
 
-      const selector = target.id ? `#${target.id}` : target.tagName.toLowerCase();
+      const selector = target.id
+        ? `#${target.id}`
+        : target.tagName.toLowerCase();
       const rect = target.getBoundingClientRect();
 
       // Handle both SVG and HTML elements
@@ -91,11 +93,11 @@ class SelectorService {
               top: rect.bottom + window.scrollY + 10,
               left: rect.left + window.scrollX,
               width: rect.width,
-              height: rect.height
-            }
-          }
+              height: rect.height,
+            },
+          },
         },
-        '*'
+        '*',
       );
     };
 
@@ -144,7 +146,7 @@ class SelectorService {
     window._uxSelectorHandlers = {
       handleMouseOver,
       handleMouseOut,
-      handleClick
+      handleClick,
     };
   };
 
@@ -165,7 +167,7 @@ class SelectorService {
         document.querySelectorAll('.ux-hoverable').forEach((el) => {
           el.classList.remove('ux-hoverable');
         });
-      }
+      },
     });
   }
 }

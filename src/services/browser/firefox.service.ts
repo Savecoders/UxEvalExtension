@@ -4,7 +4,7 @@ import {
   BrowserPort,
   RuntimeMessage,
   RuntimeSender,
-  ScriptInjection
+  ScriptInjection,
 } from '@/types/browser';
 
 class FirefoxService implements BrowserAdapter<browser.tabs.Tab> {
@@ -13,7 +13,10 @@ class FirefoxService implements BrowserAdapter<browser.tabs.Tab> {
   constructor() {}
 
   private async getActiveTab(): Promise<browser.tabs.Tab> {
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    const tabs = await browser.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
     if (tabs.length > 0) {
       return tabs[0];
     } else {
@@ -32,7 +35,7 @@ class FirefoxService implements BrowserAdapter<browser.tabs.Tab> {
     return browser.scripting
       .executeScript(script)
       .then((injectionResults) =>
-        injectionResults.length ? (injectionResults[0].result as R) : <R>null
+        injectionResults.length ? (injectionResults[0].result as R) : <R>null,
       )
       .catch((error) => {
         console.error(error);
@@ -43,12 +46,18 @@ class FirefoxService implements BrowserAdapter<browser.tabs.Tab> {
     return browser.runtime.sendMessage(message);
   }
   onMessage(
-    callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>
+    callback: (
+      message: BrowserMessage,
+      sender: RuntimeSender,
+    ) => void | Promise<void>,
   ): void {
     browser.runtime.onMessage.addListener(callback);
   }
   removeMessageListener(
-    callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>
+    callback: (
+      message: BrowserMessage,
+      sender: RuntimeSender,
+    ) => void | Promise<void>,
   ): void {
     browser.runtime.onMessage.addListener(callback);
   }

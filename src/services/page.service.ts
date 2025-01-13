@@ -38,7 +38,7 @@ class PageService {
       hostname,
       title,
       timestamp: new Date(),
-      path: url ? new URL(url).pathname : undefined
+      path: url ? new URL(url).pathname : undefined,
     };
   }
 

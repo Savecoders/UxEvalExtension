@@ -66,10 +66,16 @@ export interface BrowserAdapter<T> {
   executeScript<R>(script: ScriptInjection): Promise<R>;
   sendMessage<T>(message: RuntimeMessage<T>): Promise<T>;
   onMessage(
-    callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>
+    callback: (
+      message: BrowserMessage,
+      sender: RuntimeSender,
+    ) => void | Promise<void>,
   ): void;
   removeMessageListener(
-    callback: (message: BrowserMessage, sender: RuntimeSender) => void | Promise<void>
+    callback: (
+      message: BrowserMessage,
+      sender: RuntimeSender,
+    ) => void | Promise<void>,
   ): void;
   connectToBackground(portName: string): BrowserPort;
 }
