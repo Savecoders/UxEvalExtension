@@ -4,6 +4,9 @@ import ChromeService from '@/services/browser/chrome.service';
 import { detectBrowser } from '@/utils/detect_browser';
 // import FloatingForm from '@/components/FloatingForm';
 import SelectorService from '@/services/selector.service';
+import { ThemeProvider } from './components/ThemeProvider';
+import { ModeToggle } from './components/ModeToogle';
+import FloatingForm from './components/FloatingForm';
 
 function App() {
   const [isActive, setIsActive] = useState(false);
@@ -44,21 +47,24 @@ function App() {
   };
 
   return (
-    <div className="">
-      <h2>Euristic Evaluation Extension</h2>
-      <p>
-        Este es un ejemplo de cómo se puede integrar una extensión de Chrome o
-        Firefox
-      </p>
-      {isActive ? (
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <div className="font-sans text-2xl text-gray-900 dark:text-gray-100">
+        <h2>Euristic Evaluation Extension</h2>
         <p>
-          <strong>Estás en modo de selección</strong>
+          Este es un ejemplo de cómo se puede integrar una extensión de Chrome o
+          Firefox
         </p>
-      ) : (
-        <button onClick={handleClick}>Let's go Evaluation</button>
-      )}
-      {/* <FloatingForm browserAdapter={browser} /> */}
-    </div>
+        {isActive ? (
+          <p>
+            <strong>Estás en modo de selección</strong>
+          </p>
+        ) : (
+          <button onClick={handleClick}>Let's go Evaluation</button>
+        )}
+        <ModeToggle />
+        <FloatingForm browserAdapter={browser} />
+      </div>
+    </ThemeProvider>
   );
 }
 
