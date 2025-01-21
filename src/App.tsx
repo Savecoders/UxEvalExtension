@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import FirefoxService from '@/services/browser/firefox.service';
 import ChromeService from '@/services/browser/chrome.service';
 import { detectBrowser } from '@/utils/detect_browser';
-import FloatingForm from '@/components/FloatingForm';
+// import FloatingForm from '@/components/FloatingForm';
 import SelectorService from '@/services/selector.service';
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
   };
 
   return (
-    <>
+    <div className="">
       <h2>Euristic Evaluation Extension</h2>
       <p>
         Este es un ejemplo de cómo se puede integrar una extensión de Chrome o
@@ -57,8 +57,8 @@ function App() {
       ) : (
         <button onClick={handleClick}>Let's go Evaluation</button>
       )}
-      <FloatingForm browserAdapter={browser} />
-    </>
+      {/* <FloatingForm browserAdapter={browser} /> */}
+    </div>
   );
 }
 
